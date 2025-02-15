@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: cargo build --no-default-features
+    - name: Run tests
+      run: cargo test --no-default-features
+    - name: Run clippy
+      run: cargo clippy --no-default-features
+    - name: Check fmt
+      run: cargo fmt --check
